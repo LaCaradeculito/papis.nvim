@@ -23,13 +23,33 @@ vim.g.maplocalleader = "\\"
 
 -- Setup lazy.nvim
 require("lazy").setup({
-  spec = {
+	spec = {
     -- import your plugins
+    {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
+    {
+            "jghauser/papis.nvim",
+            dependencies = {
+              "kkharji/sqlite.lua",
+              "MunifTanjim/nui.nvim",
+              "pysan3/pathlib.nvim",
+              "nvim-neotest/nvim-nio",
+              -- if not already installed, you may also want:
+              "nvim-telescope/telescope.nvim",
+              "hrsh7th/nvim-cmp",
+		},
+		config = function()
+			require("papis").setup({
+				enable_keymaps = true,
+			})
+		end
+	},
+
     { import = "plugins" },
-  },
-  -- Configure any other settings here. See the documentation for more details.
-  -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "habamax" } },
-  -- automatically check for plugin updates
-  checker = { enabled = true },
-})
+    },
+    checker = { enabled = true },
+    })
+
+vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
+vim.opt.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.wrap = true
